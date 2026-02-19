@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "INSERT INTO actions (switch_id, action_order, action_type, is_warning, config) VALUES (?, ?, ?, ?, ?)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 5
+    },
+    "nullable": []
+  },
+  "hash": "fb8e35fea1ebfa5bb5b2d3859b6f00a1dc85069c11ba186cae33d817548ad2b8"
+}

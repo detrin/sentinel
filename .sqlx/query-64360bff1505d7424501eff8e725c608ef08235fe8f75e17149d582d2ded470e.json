@@ -1,0 +1,50 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT id as \"id!\", switch_id as \"switch_id!\", action_order as \"action_order!\", action_type as \"action_type!\", is_warning as \"is_warning!\", config as \"config!\" FROM actions WHERE switch_id = ? AND is_warning = ? ORDER BY action_order ASC",
+  "describe": {
+    "columns": [
+      {
+        "name": "id!",
+        "ordinal": 0,
+        "type_info": "Integer"
+      },
+      {
+        "name": "switch_id!",
+        "ordinal": 1,
+        "type_info": "Text"
+      },
+      {
+        "name": "action_order!",
+        "ordinal": 2,
+        "type_info": "Integer"
+      },
+      {
+        "name": "action_type!",
+        "ordinal": 3,
+        "type_info": "Text"
+      },
+      {
+        "name": "is_warning!",
+        "ordinal": 4,
+        "type_info": "Bool"
+      },
+      {
+        "name": "config!",
+        "ordinal": 5,
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Right": 2
+    },
+    "nullable": [
+      true,
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "64360bff1505d7424501eff8e725c608ef08235fe8f75e17149d582d2ded470e"
+}

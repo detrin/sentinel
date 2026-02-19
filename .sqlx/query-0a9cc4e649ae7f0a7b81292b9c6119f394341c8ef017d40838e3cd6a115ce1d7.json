@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "INSERT INTO warning_executions (switch_id, stage_seconds, executed_at) VALUES (?, ?, ?)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 3
+    },
+    "nullable": []
+  },
+  "hash": "0a9cc4e649ae7f0a7b81292b9c6119f394341c8ef017d40838e3cd6a115ce1d7"
+}

@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "DELETE FROM switches WHERE id = ?",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": []
+  },
+  "hash": "debc2241a333abc9fab95bdcc7903cd3ae1ff5e61fd742ec94bcaed2dffeacf6"
+}

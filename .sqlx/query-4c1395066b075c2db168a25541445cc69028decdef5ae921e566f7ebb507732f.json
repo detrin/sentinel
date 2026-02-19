@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "UPDATE action_executions SET status = 'failed', error_message = 'Process crashed during execution' WHERE status = 'running'",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 0
+    },
+    "nullable": []
+  },
+  "hash": "4c1395066b075c2db168a25541445cc69028decdef5ae921e566f7ebb507732f"
+}

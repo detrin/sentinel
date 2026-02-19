@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "INSERT INTO action_executions (switch_id, action_id, execution_type, started_at, status) VALUES (?, ?, ?, ?, 'running')",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 4
+    },
+    "nullable": []
+  },
+  "hash": "ca1e2b1f938cb5824f1dc1df51a4304a5ec1d5d9f4002e3d50245da9eafb6f9b"
+}

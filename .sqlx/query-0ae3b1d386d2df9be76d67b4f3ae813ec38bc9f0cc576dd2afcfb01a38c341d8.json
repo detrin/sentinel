@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "UPDATE switches SET last_checkin = ? WHERE id = ?",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 2
+    },
+    "nullable": []
+  },
+  "hash": "0ae3b1d386d2df9be76d67b4f3ae813ec38bc9f0cc576dd2afcfb01a38c341d8"
+}

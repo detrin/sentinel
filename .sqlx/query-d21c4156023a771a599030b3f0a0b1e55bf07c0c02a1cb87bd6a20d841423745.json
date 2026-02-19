@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "UPDATE switches SET status = 'triggered', last_trigger = ?, trigger_count_executed = 1 WHERE id = ?",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 2
+    },
+    "nullable": []
+  },
+  "hash": "d21c4156023a771a599030b3f0a0b1e55bf07c0c02a1cb87bd6a20d841423745"
+}

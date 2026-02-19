@@ -44,4 +44,4 @@ scripts/*
 !scripts/example_action.sh
 .venv
 .claude
-.sqlx
+

@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "INSERT INTO warning_stages (switch_id, seconds_before_deadline) VALUES (?, ?)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 2
+    },
+    "nullable": []
+  },
+  "hash": "cfa2d52c9c1b4b7af74ea5d18d5241a39c960fb81a5aae67996a31cdf1d754c7"
+}

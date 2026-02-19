@@ -1,0 +1,86 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT id as \"id!\", name as \"name!\", description, api_token as \"api_token!\", timeout_seconds, last_checkin, last_trigger, status as \"status!\", created_at, trigger_count_max, trigger_interval_seconds, trigger_count_executed FROM switches ORDER BY created_at DESC",
+  "describe": {
+    "columns": [
+      {
+        "name": "id!",
+        "ordinal": 0,
+        "type_info": "Text"
+      },
+      {
+        "name": "name!",
+        "ordinal": 1,
+        "type_info": "Text"
+      },
+      {
+        "name": "description",
+        "ordinal": 2,
+        "type_info": "Text"
+      },
+      {
+        "name": "api_token!",
+        "ordinal": 3,
+        "type_info": "Text"
+      },
+      {
+        "name": "timeout_seconds",
+        "ordinal": 4,
+        "type_info": "Integer"
+      },
+      {
+        "name": "last_checkin",
+        "ordinal": 5,
+        "type_info": "Integer"
+      },
+      {
+        "name": "last_trigger",
+        "ordinal": 6,
+        "type_info": "Integer"
+      },
+      {
+        "name": "status!",
+        "ordinal": 7,
+        "type_info": "Text"
+      },
+      {
+        "name": "created_at",
+        "ordinal": 8,
+        "type_info": "Integer"
+      },
+      {
+        "name": "trigger_count_max",
+        "ordinal": 9,
+        "type_info": "Integer"
+      },
+      {
+        "name": "trigger_interval_seconds",
+        "ordinal": 10,
+        "type_info": "Integer"
+      },
+      {
+        "name": "trigger_count_executed",
+        "ordinal": 11,
+        "type_info": "Integer"
+      }
+    ],
+    "parameters": {
+      "Right": 0
+    },
+    "nullable": [
+      true,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "914608c32a60947081eb83cf0bfc8906c49cc30a23dc84797e2d25e81277df7f"
+}

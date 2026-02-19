@@ -1,0 +1,32 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT id as \"id!\", switch_id as \"switch_id!\", seconds_before_deadline as \"seconds_before_deadline!\" FROM warning_stages WHERE switch_id = ? ORDER BY seconds_before_deadline ASC",
+  "describe": {
+    "columns": [
+      {
+        "name": "id!",
+        "ordinal": 0,
+        "type_info": "Integer"
+      },
+      {
+        "name": "switch_id!",
+        "ordinal": 1,
+        "type_info": "Text"
+      },
+      {
+        "name": "seconds_before_deadline!",
+        "ordinal": 2,
+        "type_info": "Integer"
+      }
+    ],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": [
+      true,
+      false,
+      false
+    ]
+  },
+  "hash": "cc2ac934ddcf021bf782e40c5c83ea13de43257b5490872db197c36ebb406780"
+}

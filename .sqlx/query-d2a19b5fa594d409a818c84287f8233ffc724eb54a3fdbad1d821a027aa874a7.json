@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "\n        INSERT INTO switches (id, name, description, api_token, timeout_seconds, last_checkin, last_trigger, status, created_at, trigger_count_max, trigger_interval_seconds, trigger_count_executed)\n        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)\n        ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 12
+    },
+    "nullable": []
+  },
+  "hash": "d2a19b5fa594d409a818c84287f8233ffc724eb54a3fdbad1d821a027aa874a7"
+}
