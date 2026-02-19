@@ -1,0 +1,47 @@
+# Rust
+/target/
+**/*.rs.bk
+*.pdb
+Cargo.lock
+
+# Environment
+.env
+.env.local
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Worktrees
+.worktrees/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# SSL/TLS certificates
+nginx/ssl/*.pem
+nginx/ssl/*.key
+nginx/ssl/*.crt
+
+# HTTP Basic Auth credentials
+nginx/.htpasswd
+
+# Scripts (user-provided, should not be in version control)
+scripts/*
+!scripts/.gitkeep
+!scripts/example_action.sh
+.venv
+.claude
+.sqlx

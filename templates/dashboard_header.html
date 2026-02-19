@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Sentinel</title>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #fafafa;
+            padding: 40px 20px;
+            color: #333;
+        }
+
+        header {
+            max-width: 1200px;
+            margin: 0 auto 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 300;
+            color: #000;
+            letter-spacing: -0.5px;
+        }
+
+        .logout-btn {
+            padding: 8px 20px;
+            background: #000;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+
+        .logout-btn:hover {
+            opacity: 0.8;
+        }
+
+        .create-switch-btn {
+            max-width: 1200px;
+            margin: 0 auto 30px;
+            padding: 12px 24px;
+            background: #000;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            display: block;
+        }
+
+        .create-switch-btn:hover {
+            opacity: 0.8;
+        }
+
+        .form-container {
+            max-width: 1200px;
+            margin: 0 auto 40px;
+            background: white;
+            border-radius: 8px;
+            padding: 40px;
+            border: 1px solid #e0e0e0;
+            display: none;
+        }
+
+        .form-container.show {
+            display: block;
+        }
+
+        .form-container h2 {
+            font-size: 24px;
+            font-weight: 300;
+            margin-bottom: 30px;
+            color: #000;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #000;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #000;
+        }
+
+        .form-group textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .form-group small {
+            display: block;
+            margin-top: 6px;
+            color: #666;
+            font-size: 12px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: #000;
+            margin: 32px 0 16px 0;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .action-item {
+            background: #fafafa;
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 16px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .action-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .action-header h4 {
+            font-size: 14px;
+            font-weight: 500;
+            color: #000;
+        }
+
+        .remove-btn {
+            background: #ff3b30;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+
+        .remove-btn:hover {
+            opacity: 0.8;
+        }
+
+        .add-action-btn {
+            background: #000;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+            transition: opacity 0.2s;
+        }
+
+        .add-action-btn:hover {
+            opacity: 0.8;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+        }
+
+        .btn-primary {
+            flex: 1;
+            padding: 12px;
+            background: #000;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.8;
+        }
+
+        .btn-cancel {
+            padding: 12px 24px;
+            background: white;
+            color: #000;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-cancel:hover {
+            background: #fafafa;
+        }
+
+        .switches-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .switch-card {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            border: 1px solid #e0e0e0;
+            border-left: 3px solid #ccc;
+            transition: box-shadow 0.2s;
+        }
+
+        .switch-card:hover {
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        .switch-card.status-alive {
+            border-left-color: #34c759;
+        }
+
+        .switch-card.status-warning {
+            border-left-color: #ff9500;
+        }
+
+        .switch-card.status-expired {
+            border-left-color: #ff3b30;
+        }
+
+        .switch-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .switch-header h2 {
+            font-size: 18px;
+            font-weight: 500;
+            color: #000;
+        }
+
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-alive .status-badge {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .status-warning .status-badge {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .status-expired .status-badge {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .description {
+            color: #666;
+            margin-bottom: 16px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .switch-info {
+            margin: 16px 0;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-item .label {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .info-item .value {
+            font-weight: 500;
+            font-size: 13px;
+            color: #000;
+        }
+
+        .switch-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .btn-checkin {
+            flex: 1;
+            padding: 10px;
+            background: #000;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn-checkin:hover {
+            opacity: 0.8;
+        }
+
+        .btn-secondary {
+            padding: 10px 20px;
+            background: white;
+            color: #000;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: #fafafa;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Sentinel</h1>
+        <form action="/api/auth/logout" method="POST" style="display: inline;">
+            <button type="submit" class="logout-btn">Logout</button>
+        </form>
+    </header>
+
+    <button class="create-switch-btn" onclick="toggleForm()">+ Create New Switch</button>
+
+    <div id="create-form" class="form-container">
+        <h2>Create Deadman Switch</h2>
+        <form id="switchForm" onsubmit="submitForm(event)">
+
+            <div class="form-group">
+                <label>Switch Name *</label>
+                <input type="text" name="name" required placeholder="My Important Switch">
+            </div>
+
+            <div class="form-group">
+                <label>Description</label>
+                <textarea name="description" placeholder="What this switch monitors..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Timeout (seconds) *</label>
+                <input type="number" name="timeout_seconds" required value="86400" placeholder="86400">
+                <small>How long before the switch triggers (e.g., 86400 = 24 hours)</small>
+            </div>
+
+            <div class="form-group">
+                <label>Trigger Count *</label>
+                <input type="number" name="trigger_count_max" required value="1" min="0" placeholder="1">
+                <small>How many times to trigger (0 = infinite, 1 = once, N = N times)</small>
+            </div>
+
+            <div class="form-group">
+                <label>Trigger Interval (seconds) *</label>
+                <input type="number" name="trigger_interval_seconds" required value="300" min="1" placeholder="300">
+                <small>Seconds between each trigger execution (e.g., 300 = 5 minutes)</small>
+            </div>
+
+            <div class="section-title">Warning Stages</div>
+            <div class="form-group">
+                <label>Seconds Before Deadline (comma-separated)</label>
+                <input type="text" name="warning_stages" placeholder="3600,7200,21600">
+                <small>Example: 3600,7200 = warnings at 1 hour and 2 hours before deadline</small>
+            </div>
+
+            <div class="section-title">Warning Actions (Optional)</div>
+            <div id="warning-actions"></div>
+            <button type="button" class="add-action-btn" onclick="addWarningAction()">+ Add Warning Action</button>
+
+            <div class="section-title">Final Actions (Required)</div>
+            <div id="final-actions"></div>
+            <button type="button" class="add-action-btn" onclick="addFinalAction()">+ Add Final Action</button>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Create Switch</button>
+                <button type="button" class="btn-cancel" onclick="toggleForm()">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        let warningActionCount = 0;
+        let finalActionCount = 0;
+
+        function toggleForm() {
+            const form = document.getElementById('create-form');
+            form.classList.toggle('show');
+        }
+
+        function addWarningAction() {
+            const container = document.getElementById('warning-actions');
+            const count = ++warningActionCount;
+            const id = 'warning-' + count;
+
+            const actionHtml = `
+                <div class="action-item" id="${id}">
+                    <div class="action-header">
+                        <h4>Action #${count}</h4>
+                        <button type="button" class="remove-btn" onclick="removeAction('${id}')">Remove</button>
+                    </div>
+                    <div class="form-group">
+                        <label>Action Type</label>
+                        <select name="warning_action_type[]" onchange="updateActionFields('${id}', this.value)">
+                            <option value="email">Email</option>
+                            <option value="webhook">Webhook</option>
+                            <option value="script">Script</option>
+                        </select>
+                    </div>
+                    <div id="${id}-fields">
+                        ${getEmailFields(id, 'warning')}
+                    </div>
+                </div>
+            `;
+
+            container.insertAdjacentHTML('beforeend', actionHtml);
+        }
+
+        function addFinalAction() {
+            const container = document.getElementById('final-actions');
+            const count = ++finalActionCount;
+            const id = 'final-' + count;
+
+            const actionHtml = `
+                <div class="action-item" id="${id}">
+                    <div class="action-header">
+                        <h4>Action #${count}</h4>
+                        <button type="button" class="remove-btn" onclick="removeAction('${id}')">Remove</button>
+                    </div>
+                    <div class="form-group">
+                        <label>Action Type</label>
+                        <select name="final_action_type[]" onchange="updateActionFields('${id}', this.value)">
+                            <option value="email">Email</option>
+                            <option value="webhook">Webhook</option>
+                            <option value="script">Script</option>
+                        </select>
+                    </div>
+                    <div id="${id}-fields">
+                        ${getEmailFields(id, 'final')}
+                    </div>
+                </div>
+            `;
+
+            container.insertAdjacentHTML('beforeend', actionHtml);
+        }
+
+        function removeAction(id) {
+            document.getElementById(id).remove();
+        }
+
+        function updateActionFields(id, actionType) {
+            const fieldsContainer = document.getElementById(id + '-fields');
+            const type = id.startsWith('warning-') ? 'warning' : 'final';
+
+            if (actionType === 'email') {
+                fieldsContainer.innerHTML = getEmailFields(id, type);
+            } else if (actionType === 'webhook') {
+                fieldsContainer.innerHTML = getWebhookFields(id, type);
+            } else if (actionType === 'script') {
+                fieldsContainer.innerHTML = getScriptFields(id, type);
+            }
+        }
+
+        function getEmailFields(id, type = 'final') {
+            return `
+                <div class="form-group">
+                    <label>To Email(s) *</label>
+                    <input type="text" name="${type}_action_to[]" required placeholder="recipient@example.com, another@example.com">
+                    <small>Multiple recipients: comma-separated emails</small>
+                </div>
+                <div class="form-group">
+                    <label>Subject *</label>
+                    <input type="text" name="${type}_action_subject[]" required placeholder="${type === 'warning' ? '⚠️ Deadman Switch Warning' : '🚨 DEADMAN SWITCH TRIGGERED'}">
+                </div>
+                <div class="form-group">
+                    <label>Body *</label>
+                    <textarea name="${type}_action_body[]" required placeholder="${type === 'warning' ? "You haven't checked in! Please check in soon." : 'The deadman switch has been triggered! No check-in received.'}"></textarea>
+                </div>
+            `;
+        }
+
+        function getWebhookFields(id, type = 'final') {
+            return `
+                <div class="form-group">
+                    <label>Webhook URL *</label>
+                    <input type="url" name="${type}_action_url[]" required placeholder="https://example.com/webhook">
+                </div>
+                <div class="form-group">
+                    <label>Method</label>
+                    <select name="${type}_action_method[]">
+                        <option value="POST">POST</option>
+                        <option value="GET">GET</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Headers (JSON)</label>
+                    <textarea name="${type}_action_headers[]" placeholder='{"Authorization": "Bearer token"}'></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Body (JSON)</label>
+                    <textarea name="${type}_action_payload[]" placeholder='{"message": "Switch triggered"}'></textarea>
+                </div>
+            `;
+        }
+
+        function getScriptFields(id, type = 'final') {
+            const scriptsHtml = window.availableScripts && window.availableScripts.length > 0
+                ? window.availableScripts.map(script => `<option value="${script}">${script}</option>`).join('')
+                : '<option value="">No scripts available</option>';
+
+            return `
+                <div class="form-group">
+                    <label>Script *</label>
+                    <select name="${type}_action_script[]" required>
+                        <option value="">-- Select a script --</option>
+                        ${scriptsHtml}
+                    </select>
+                    <small>Scripts from /opt/sentinel/scripts/ directory</small>
+                </div>
+            `;
+        }
+
+        async function submitForm(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+
+            // Build JSON payload
+            const payload = {
+                name: formData.get('name'),
+                description: formData.get('description') || null,
+                timeout_seconds: parseInt(formData.get('timeout_seconds')),
+                trigger_count_max: parseInt(formData.get('trigger_count_max')),
+                trigger_interval_seconds: parseInt(formData.get('trigger_interval_seconds')),
+                warning_stages: [],
+                warning_actions: [],
+                final_actions: []
+            };
+
+            // Parse warning stages
+            const warningStagesStr = formData.get('warning_stages');
+            if (warningStagesStr) {
+                payload.warning_stages = warningStagesStr.split(',')
+                    .map(s => parseInt(s.trim()))
+                    .filter(n => !isNaN(n));
+            }
+
+            // Parse warning actions
+            const warningTypes = formData.getAll('warning_action_type[]');
+            for (let i = 0; i < warningTypes.length; i++) {
+                const actionType = warningTypes[i];
+                const action = { action_type: actionType, config: {} };
+
+                if (actionType === 'email') {
+                    action.config = {
+                        to: formData.getAll('warning_action_to[]')[i],
+                        subject: formData.getAll('warning_action_subject[]')[i],
+                        body: formData.getAll('warning_action_body[]')[i]
+                    };
+                } else if (actionType === 'webhook') {
+                    const headers = formData.getAll('warning_action_headers[]')[i];
+                    const payload_body = formData.getAll('warning_action_payload[]')[i];
+                    action.config = {
+                        url: formData.getAll('warning_action_url[]')[i],
+                        method: formData.getAll('warning_action_method[]')[i],
+                        headers: headers ? JSON.parse(headers) : {},
+                        body: payload_body ? JSON.parse(payload_body) : {}
+                    };
+                } else if (actionType === 'script') {
+                    action.config = {
+                        script_path: formData.getAll('warning_action_script[]')[i]
+                    };
+                }
+
+                payload.warning_actions.push(action);
+            }
+
+            // Parse final actions
+            const finalTypes = formData.getAll('final_action_type[]');
+            for (let i = 0; i < finalTypes.length; i++) {
+                const actionType = finalTypes[i];
+                const action = { action_type: actionType, config: {} };
+
+                if (actionType === 'email') {
+                    action.config = {
+                        to: formData.getAll('final_action_to[]')[i],
+                        subject: formData.getAll('final_action_subject[]')[i],
+                        body: formData.getAll('final_action_body[]')[i]
+                    };
+                } else if (actionType === 'webhook') {
+                    const headers = formData.getAll('final_action_headers[]')[i];
+                    const payload_body = formData.getAll('final_action_payload[]')[i];
+                    action.config = {
+                        url: formData.getAll('final_action_url[]')[i],
+                        method: formData.getAll('final_action_method[]')[i],
+                        headers: headers ? JSON.parse(headers) : {},
+                        body: payload_body ? JSON.parse(payload_body) : {}
+                    };
+                } else if (actionType === 'script') {
+                    action.config = {
+                        script_path: formData.getAll('final_action_script[]')[i]
+                    };
+                }
+
+                payload.final_actions.push(action);
+            }
+
+            // Validate at least one final action
+            if (payload.final_actions.length === 0) {
+                alert('At least one final action is required.');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/switches', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    alert('Switch created successfully! Reloading...');
+                    location.reload();
+                } else {
+                    const error = await response.text();
+                    alert('Error creating switch: ' + error);
+                }
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        }
+
+        // Fetch available scripts on page load
+        window.availableScripts = [];
+        fetch('/api/scripts')
+            .then(response => response.json())
+            .then(scripts => {
+                window.availableScripts = scripts;
+            })
+            .catch(error => {
+                console.error('Failed to load scripts:', error);
+                window.availableScripts = [];
+            });
+
+        // Add one default final action (required)
+        addFinalAction();
+    </script>
+
+    <div class="switches-grid">
+

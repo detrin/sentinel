@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  sentinel:
+    build: .
+    container_name: sentinel-app
+    restart: unless-stopped
+    environment:
+      - DATABASE_URL=sqlite:///data/sentinel.db?mode=rwc
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_USERNAME=${SMTP_USERNAME}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - SMTP_FROM=${SMTP_FROM}
+      - BIND_ADDRESS=0.0.0.0:3000
+      - SCRIPTS_DIR=/opt/sentinel/scripts
+      - SCRIPT_TIMEOUT_SECONDS=60
+      - ADMIN_USERNAME=${ADMIN_USERNAME}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - RUST_LOG=sentinel=info,tower_http=info
+    volumes:
+      - sentinel-data:/data
+      - ./scripts:/opt/sentinel/scripts:ro
+    networks:
+      - sentinel-network
+  nginx:
+    build:
+      context: ./nginx
+      args:
+        ADMIN_USERNAME: ${ADMIN_USERNAME}
+        ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+    container_name: sentinel-nginx
+    restart: unless-stopped
+    ports:
+      - "9999:80"
+    volumes:
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - sentinel
+    networks:
+      - sentinel-network
+
+volumes:
+  sentinel-data:
+    driver: local
+
+networks:
+  sentinel-network:
+    driver: bridge
