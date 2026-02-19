@@ -75,25 +75,6 @@ docker-compose up -d
                         └────────┘   └──────────┘  └────────┘
 ```
 
-## Example Timeline
-
-```
-Day 0:  You check in
-        ├─ Timer starts: 7 days
-        │
-Day 6:  Warning stage (1 day before deadline)
-        ├─ Email sent: "Please check in soon"
-        │
-Day 6:  You check in again
-        ├─ Timer resets: 7 days
-        │
-Day 13: You forget to check in
-        ├─ Final deadline reached
-        ├─ Email sent to emergency contact
-        ├─ Webhook triggered
-        └─ Custom script executed
-```
-
 ## Creating a Switch
 
 1. Click "Create New Switch" in dashboard
