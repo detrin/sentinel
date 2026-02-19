@@ -1,6 +1,8 @@
 # Sentinel - Dead Man Switch
 
-![](./nginx/landing/dead_man_switch.jpg)
+<p align="center">
+  <img src="./nginx/landing/dead_man_switch.jpg" width="300" alt="Dead Man Switch">
+</p>
 
 A dead man switch that sends alerts if you don't check in regularly.
 
