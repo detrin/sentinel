@@ -56,7 +56,7 @@ pub async fn checkin(
     };
 
     // Verify token matches switch's API token using constant-time comparison
-    let token_valid = switch.api_token.as_bytes().ct_eq(token.as_bytes()).into();
+    let token_valid: bool = switch.api_token.as_bytes().ct_eq(token.as_bytes()).into();
 
     if !token_valid {
         // Log without exposing actual token values
