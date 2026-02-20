@@ -79,12 +79,35 @@ docker-compose up -d
 
 1. Click "Create New Switch" in dashboard
 2. Fill in:
-   - Name: "My Weekly Check"
-   - Timeout: 604800 seconds (7 days)
-   - Warning stages: 86400 (1 day before)
-   - Final actions: Add email/webhook/script
+   - **Name:** "My Weekly Check"
+   - **Timeout:** 604800 seconds (7 days)
+   - **Trigger Count:** 1 (how many times to trigger, 0 = infinite)
+   - **Trigger Interval:** 300 seconds (time between trigger executions)
+   - **Warning stages:** 86400 (1 day before - optional, comma-separated)
+   - **Warning Actions:** Optional actions to run at warning stages
+   - **Final Actions:** Required actions to run when deadline is reached
 
 3. Save and copy the API token for automated check-ins
+
+### Adding Email Actions
+
+When configuring email actions:
+- **BCC Recipients:** Enter email addresses (comma-separated for multiple)
+- Recipients are sent as BCC - they won't see each other's addresses
+- The email will have a "To:" header set to your SMTP From address
+- This ensures privacy while maintaining email delivery standards
+
+Example: `alice@example.com, bob@example.com, charlie@example.com`
+
+## Managing Switches
+
+**⚠️ Important:** Switches cannot be deleted once created. This is by design to prevent accidental deletion of critical dead man switches.
+
+If you need to stop a switch:
+1. Simply stop checking in - it will trigger as intended
+2. Or remove the actions if you want to disable it without triggering
+
+To completely reset and remove all switches, see the "Reset" section below.
 
 ## Check-in Methods
 
@@ -103,9 +126,20 @@ curl -X POST http://localhost:9999/api/checkin/SWITCH_ID \
 
 ## Action Types
 
-**Email:** Send email via SMTP
-**Webhook:** POST/GET to any URL
-**Script:** Run bash scripts from `scripts/` folder (dropdown selection in UI)
+**Email:**
+- Send email via SMTP to multiple recipients (BCC)
+- All recipients are blind-copied for privacy
+- Email "To:" header is set to your SMTP From address
+- Recipients cannot see each other's addresses
+
+**Webhook:**
+- POST/GET to any URL
+- Optional custom headers and body
+
+**Script:**
+- Run bash scripts from `scripts/` folder
+- Scripts appear in dropdown selection in UI
+- Can pass custom arguments
 
 ## Files
 
