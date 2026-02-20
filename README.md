@@ -158,3 +158,11 @@ docker-compose down
 docker volume rm dead-man-switch_sentinel-data
 docker-compose up -d
 ```
+
+## Disclaimer 
+
+This project was mostly vibecoded. Use at your own risk, I tested it and it does what I want.
+
+## Contributions
+
+PRs, issues, suggestions are welcomed. 
