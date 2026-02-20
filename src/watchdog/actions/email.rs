@@ -1,6 +1,6 @@
 use crate::{config::SmtpConfig, models::EmailActionConfig, watchdog::executor::ActionResult};
 use lettre::{
-    message::header::ContentType,
+    message::{header::ContentType, Mailbox},
     transport::smtp::{authentication::Credentials, client::Tls, client::TlsParameters},
     Message, SmtpTransport, Transport,
 };
@@ -19,14 +19,14 @@ pub async fn execute(config_json: &str, smtp_config: &SmtpConfig) -> ActionResul
         }
     }
 
-    // Build email message
+    let from_addr: Mailbox = smtp_config
+        .from
+        .parse()
+        .map_err(|e| format!("Invalid 'from' address: {}", e))?;
+
     let mut builder = Message::builder()
-        .from(
-            smtp_config
-                .from
-                .parse()
-                .map_err(|e| format!("Invalid 'from' address: {}", e))?,
-        )
+        .from(from_addr.clone())
+        .to(from_addr)
         .subject(&email_config.subject)
         .header(ContentType::TEXT_PLAIN);
 

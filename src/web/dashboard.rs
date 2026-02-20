@@ -491,11 +491,18 @@ pub async fn switch_detail(
                     let config_display = match a.action_type.as_str() {
                         "email" => {
                             if let Ok(config) = serde_json::from_str::<serde_json::Value>(&a.config) {
+                                let bcc_display = if let Some(bcc_arr) = config.get("bcc").and_then(|v| v.as_array()) {
+                                    bcc_arr.iter().filter_map(|v| v.as_str()).collect::<Vec<_>>().join(", ")
+                                } else if let Some(to) = config.get("to").and_then(|v| v.as_str()) {
+                                    to.to_string()
+                                } else {
+                                    "N/A".to_string()
+                                };
                                 format!(
-                                    "<div class=\"action-detail\"><strong>To:</strong> {}</div>\
+                                    "<div class=\"action-detail\"><strong>Bcc:</strong> {}</div>\
                                      <div class=\"action-detail\"><strong>Subject:</strong> {}</div>\
                                      <div class=\"action-detail\"><strong>Body:</strong> {}</div>",
-                                    escape_html(config.get("to").and_then(|v| v.as_str()).unwrap_or("N/A")),
+                                    escape_html(&bcc_display),
                                     escape_html(config.get("subject").and_then(|v| v.as_str()).unwrap_or("N/A")),
                                     escape_html(config.get("body").and_then(|v| v.as_str()).unwrap_or("N/A"))
                                 )
@@ -569,11 +576,18 @@ pub async fn switch_detail(
                     let config_display = match a.action_type.as_str() {
                         "email" => {
                             if let Ok(config) = serde_json::from_str::<serde_json::Value>(&a.config) {
+                                let bcc_display = if let Some(bcc_arr) = config.get("bcc").and_then(|v| v.as_array()) {
+                                    bcc_arr.iter().filter_map(|v| v.as_str()).collect::<Vec<_>>().join(", ")
+                                } else if let Some(to) = config.get("to").and_then(|v| v.as_str()) {
+                                    to.to_string()
+                                } else {
+                                    "N/A".to_string()
+                                };
                                 format!(
-                                    "<div class=\"action-detail\"><strong>To:</strong> {}</div>\
+                                    "<div class=\"action-detail\"><strong>Bcc:</strong> {}</div>\
                                      <div class=\"action-detail\"><strong>Subject:</strong> {}</div>\
                                      <div class=\"action-detail\"><strong>Body:</strong> {}</div>",
-                                    escape_html(config.get("to").and_then(|v| v.as_str()).unwrap_or("N/A")),
+                                    escape_html(&bcc_display),
                                     escape_html(config.get("subject").and_then(|v| v.as_str()).unwrap_or("N/A")),
                                     escape_html(config.get("body").and_then(|v| v.as_str()).unwrap_or("N/A"))
                                 )
