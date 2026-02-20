@@ -61,7 +61,7 @@ pub struct ActionExecution {
 // Action configuration types
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct EmailActionConfig {
-    pub to: String,
+    pub bcc: Vec<String>,
     pub subject: String,
     pub body: String,
 }

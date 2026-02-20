@@ -13,19 +13,21 @@ pub async fn execute(config_json: &str, smtp_config: &SmtpConfig) -> ActionResul
         .map_err(|e| format!("Failed to parse email config: {}", e))?;
 
     // Build email message
-    let email = Message::builder()
+    let mut builder = Message::builder()
         .from(
             smtp_config
                 .from
                 .parse()
                 .map_err(|e| format!("Invalid 'from' address: {}", e))?,
         )
-        .to(email_config
-            .to
-            .parse()
-            .map_err(|e| format!("Invalid 'to' address: {}", e))?)
         .subject(&email_config.subject)
-        .header(ContentType::TEXT_PLAIN)
+        .header(ContentType::TEXT_PLAIN);
+
+    for recipient in &email_config.bcc {
+        builder = builder.bcc(recipient.parse().map_err(|e| format!("Invalid BCC address '{}': {}", recipient, e))?);
+    }
+
+    let email = builder
         .body(email_config.body.clone())
         .map_err(|e| format!("Failed to build email: {}", e))?;
 
@@ -61,7 +63,7 @@ pub async fn execute(config_json: &str, smtp_config: &SmtpConfig) -> ActionResul
 
     match result {
         Ok(Ok(Ok(_response))) => {
-            Ok((0, format!("Email sent to {}", email_config.to), String::new()))
+            Ok((0, format!("Email sent to {} BCC recipients", email_config.bcc.len()), String::new()))
         }
         Ok(Ok(Err(e))) => Err(format!("Failed to send email: {}", e)),
         Ok(Err(e)) => Err(format!("Task join error: {}", e)),
