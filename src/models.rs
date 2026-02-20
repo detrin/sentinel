@@ -61,7 +61,10 @@ pub struct ActionExecution {
 // Action configuration types
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct EmailActionConfig {
+    #[serde(default)]
     pub bcc: Vec<String>,
+    #[serde(default)]
+    pub to: Option<String>,
     pub subject: String,
     pub body: String,
 }

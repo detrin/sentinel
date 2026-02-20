@@ -528,9 +528,9 @@
         function getEmailFields(id, type = 'final') {
             return `
                 <div class="form-group">
-                    <label>To Email(s) *</label>
-                    <input type="text" name="${type}_action_to[]" required placeholder="recipient@example.com, another@example.com">
-                    <small>Multiple recipients: comma-separated emails</small>
+                    <label>BCC Recipients *</label>
+                    <input type="text" name="${type}_action_bcc[]" required placeholder="recipient@example.com, another@example.com">
+                    <small>Recipients won't see each other (sent as BCC). Use comma-separated emails for multiple recipients.</small>
                 </div>
                 <div class="form-group">
                     <label>Subject *</label>
@@ -616,8 +616,10 @@
                 const action = { action_type: actionType, config: {} };
 
                 if (actionType === 'email') {
+                    const bccStr = formData.getAll('warning_action_bcc[]')[i];
+                    const bccArray = bccStr.split(',').map(e => e.trim()).filter(e => e.length > 0);
                     action.config = {
-                        to: formData.getAll('warning_action_to[]')[i],
+                        bcc: bccArray,
                         subject: formData.getAll('warning_action_subject[]')[i],
                         body: formData.getAll('warning_action_body[]')[i]
                     };
@@ -646,8 +648,10 @@
                 const action = { action_type: actionType, config: {} };
 
                 if (actionType === 'email') {
+                    const bccStr = formData.getAll('final_action_bcc[]')[i];
+                    const bccArray = bccStr.split(',').map(e => e.trim()).filter(e => e.length > 0);
                     action.config = {
-                        to: formData.getAll('final_action_to[]')[i],
+                        bcc: bccArray,
                         subject: formData.getAll('final_action_subject[]')[i],
                         body: formData.getAll('final_action_body[]')[i]
                     };

@@ -8,9 +8,16 @@ use tokio::time::{timeout, Duration};
 
 /// Execute an email action
 pub async fn execute(config_json: &str, smtp_config: &SmtpConfig) -> ActionResult {
-    // Parse email configuration
-    let email_config: EmailActionConfig = serde_json::from_str(config_json)
+    let mut email_config: EmailActionConfig = serde_json::from_str(config_json)
         .map_err(|e| format!("Failed to parse email config: {}", e))?;
+
+    if email_config.bcc.is_empty() {
+        if let Some(to) = &email_config.to {
+            email_config.bcc = vec![to.clone()];
+        } else {
+            return Err("No recipients specified (need 'bcc' or 'to')".to_string());
+        }
+    }
 
     // Build email message
     let mut builder = Message::builder()
