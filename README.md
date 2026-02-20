@@ -99,15 +99,7 @@ When configuring email actions:
 
 Example: `alice@example.com, bob@example.com, charlie@example.com`
 
-## Managing Switches
-
-**⚠️ Important:** Switches cannot be deleted once created. This is by design to prevent accidental deletion of critical dead man switches.
-
-If you need to stop a switch:
-1. Simply stop checking in - it will trigger as intended
-2. Or remove the actions if you want to disable it without triggering
-
-To completely reset and remove all switches, see the "Reset" section below.
+**⚠️ Important:** Switches cannot be deleted once created. 
 
 ## Check-in Methods
 
